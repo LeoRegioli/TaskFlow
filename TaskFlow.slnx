@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Domain/TaskFlow.Domain.csproj" />
+  <Project Path="TaskFlow.Application/TaskFlow.Application.csproj" Id="c491b15c-5712-42a8-aa91-328f985763ba" />
+  <Project Path="TaskFlow.Tests/TaskFlow.Tests.csproj" Id="3ae61de3-3229-4e31-8e93-89bf010b391b" />
+  <Project Path="TaskFlow/TaskFlow.csproj" />
+</Solution>
