@@ -5,7 +5,7 @@ namespace TaskFlow.Application
 {
     public class JsonDatabase : IJsonDatabase
     {
-        private readonly string FilePath = "C:\\Users\\Leo Regioli\\Documents\\Study\\Infnet\\TaskFlow\\TaskFlow\\database.json";
+        private readonly string FilePath = "database.json";
         private readonly JsonSerializerOptions Options = new()
         {
             WriteIndented = true
@@ -55,8 +55,8 @@ namespace TaskFlow.Application
         public async Task CompleteTask(int id)
         {
             var allTasks = await ReadAsync();
-            var hasTask = allTasks.Where(t => t.ID == id && t.IsCompleted == true);
-            if (!hasTask.Any()) throw new Exception("Task já completado.");
+            var hasTask = allTasks.Where(t => t.ID == id);
+            if (hasTask.Any() && hasTask.First().IsCompleted == true) return;
 
             hasTask.First().IsCompleted = true;
             var allTasksUpdated = allTasks.ToList();

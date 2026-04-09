@@ -28,7 +28,7 @@ namespace TaskFlow.Domain
             if (string.IsNullOrEmpty(description))
                 throw new ArgumentException("Descrição é requerido.");
 
-            if (title.Trim().Length < 10)
+            if (description.Trim().Length < 10)
                 throw new ArgumentException("A descrição deve ter pelo menos 10 caracteres.");
 
             Title = title.Trim();

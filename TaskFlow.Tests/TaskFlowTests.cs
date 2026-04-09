@@ -11,18 +11,18 @@ namespace TaskFlow.Tests
         public TaskFlowTests()
         {
             _jsonDB = new JsonDatabase();
-            _service = new TaskService(_jsonDB);
+            _service = new TaskService(_jsonDB);            
         }
 
         [Fact]
-        public async void TaskFlow_ListAllTaskItems_NotNull()
+        public async Task TaskFlow_ListAllTaskItems_NotNull()
         {
             var service = await _service.GetAllAsync();
             Assert.NotNull(service);
         }
 
         [Fact]
-        public async void TaskFlow_ValidateCreationTask_NotNull()
+        public async Task TaskFlow_ValidateCreationTask_NotNull()
         {
             var taskItem = new FakeTaskFlow().GenerateFakeTaskItem();
             var createTask = await _service.CreateAsync(taskItem);
@@ -32,7 +32,7 @@ namespace TaskFlow.Tests
         }
 
         [Fact]
-        public async void TaskFlow_CreateAndRemoveTaskItem_Bool()
+        public async Task TaskFlow_CreateAndRemoveTaskItem_Bool()
         {
             var taskItem = new FakeTaskFlow().GenerateFakeTaskItem();
             var createTask = await _service.CreateAsync(taskItem);
@@ -43,34 +43,49 @@ namespace TaskFlow.Tests
         }
 
         [Fact]
-        public async void TaskFlow_GetTaskItemById_NotNull()
+        public async Task TaskFlow_GetTaskItemById_NotNull()
         {
             var allTasks = await _service.GetAllAsync();
-            var idRandom = new Random().Next(1, allTasks.Count());
-            var getTaskById = await _service.GetByIdAsync(idRandom);
+            var getTaskById = await _service.GetByIdAsync(1);
 
             Assert.NotNull(getTaskById);
         }
 
         [Fact]
-        public async void TaskFlow_SetTaskComplete_True()
+        public async Task TaskFlow_SetTaskComplete_True()
         {
-            var allTasks = await _service.GetAllAsync();
-            var idRandom = new Random().Next(1, allTasks.Count());
-            await _service.CompleteTask(idRandom);
-            var getTaskById = await _service.GetByIdAsync(idRandom);
+            await _service.CompleteTask(1);
+            var getTaskById = await _service.GetByIdAsync(1);
 
             Assert.True(getTaskById.IsCompleted);
         }
 
         [Fact]
-        public async void TaskFlow_TaskItem_ValidateExceptions()
+        public async Task TaskFlow_TaskItem_ValidateExceptions_RequiredTitle()
         {
-            var exception = Assert.ThrowsAsync<ArgumentException>(() => _service.CreateAsync(new TaskItem("Test Task", "TaskFlowTests")));
-            Assert.Equal("Título é requerido.", exception.Exception?.Message);
-            Assert.Equal("O Título deve ter pelo menos 3 caracteres.", exception.Exception?.Message);
-            Assert.Equal("Descrição é requerido.", exception.Exception?.Message);
-            Assert.Equal("A descrição deve ter pelo menos 10 caracteres.", exception.Exception?.Message);
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateAsync(new TaskItem("", "")));
+            Assert.Equal("Título é requerido.", exception.Message);
+        }
+
+        [Fact]
+        public async Task TaskFlow_TaskItem_ValidateExceptions_RequiredTitleLength()
+        {
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateAsync(new TaskItem("Te", "TaskFlowTests")));
+            Assert.Equal("O Título deve ter pelo menos 3 caracteres.", exception.Message);
+        }
+
+        [Fact]
+        public async Task TaskFlow_TaskItem_ValidateExceptions_RequiredDescription()
+        {
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateAsync(new TaskItem("Test Task", "")));
+            Assert.Equal("Descrição é requerido.", exception.Message);
+        }
+
+        [Fact]
+        public async Task TaskFlow_TaskItem_ValidateExceptions_RequiredDescriptionLength()
+        {
+            var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await _service.CreateAsync(new TaskItem("Test Task", "Test")));
+            Assert.Equal("A descrição deve ter pelo menos 10 caracteres.", exception.Message);
         }
     }
 }

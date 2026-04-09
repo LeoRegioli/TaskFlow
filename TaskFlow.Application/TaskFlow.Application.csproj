@@ -10,4 +10,10 @@
     <ProjectReference Include="..\TaskFlow.Domain\TaskFlow.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\TaskFlow.API\database.json" Link="database.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
