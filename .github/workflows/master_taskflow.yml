@@ -28,10 +28,7 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
-
-      - name: Run tests
-        run: dotnet test
-
+        
       - name: Tests + Coverage + Threshold
         run: dotnet test --configuration Release --no-build /p:CollectCoverage=true /p:CoverletOutput=./TestResults/Coverage/ /p:CoverletOutputFormat="cobertura" /p:Threshold=80 /p:ThresholdType=line /p:ThresholdStat=total
 
