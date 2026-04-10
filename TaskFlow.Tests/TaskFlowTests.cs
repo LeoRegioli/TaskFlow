@@ -29,6 +29,7 @@ namespace TaskFlow.Tests
             var isCreated = await _service.GetByIdAsync(createTask.ID);
 
             Assert.NotNull(isCreated);
+            await _service.RemoveAsync(createTask.ID);
         }
 
         [Fact]

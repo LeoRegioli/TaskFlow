@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
   <Project Path="TaskFlow.API/TaskFlow.API.csproj" />
   <Project Path="TaskFlow.Application/TaskFlow.Application.csproj" Id="c491b15c-5712-42a8-aa91-328f985763ba" />
   <Project Path="TaskFlow.Domain/TaskFlow.Domain.csproj" />
