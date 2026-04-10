@@ -35,15 +35,9 @@ jobs:
       - name: Tests + Coverage + Threshold
         run: dotnet test --configuration Release --no-build /p:CollectCoverage=true /p:CoverletOutput=./TestResults/Coverage/ /p:CoverletOutputFormat="cobertura" /p:Threshold=80 /p:ThresholdType=line /p:ThresholdStat=total
 
-      - name: Install tools
-        run: dotnet tool restore
-
       - name: Generate coverage report
-        run: dotnet reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:HtmlInline;MarkdownSummaryGithub
-
-      - name: Add summary
-        run: cat coverage-report/SummaryGitHub.md >> $GITHUB_STEP_SUMMARY
-
+        run: dotnet reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:HtmlInline
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:          
