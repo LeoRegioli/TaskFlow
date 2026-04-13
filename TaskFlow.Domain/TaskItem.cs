@@ -42,5 +42,7 @@ namespace TaskFlow.Domain
 
             IsCompleted = true;
         }
+
+        public void TestCICD() { }
     }
 }
